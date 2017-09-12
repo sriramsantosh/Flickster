@@ -14,9 +14,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.annotation.ThreadSafe;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MovieActivity extends AppCompatActivity {
 
@@ -35,26 +42,55 @@ public class MovieActivity extends AppCompatActivity {
         lvItems.setAdapter(movieArrayAdapter);
 
         String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-        AsyncHttpClient httpClient = new AsyncHttpClient();
 
-        httpClient.get(url, new JsonHttpResponseHandler(){
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+
+        // Get a handler that can be used to post to the main thread
+        client.newCall(request).enqueue(new Callback() {
+
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONArray movieJSONResults = new JSONArray();
+            public void onFailure(Call call, IOException e) {
+                Log.d("Error", e.getLocalizedMessage());
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
+
+                // Read data on the worker thread
+                 String responseData = response.body().string();
                 try {
-                    movieJSONResults = response.getJSONArray("results");
+                    JSONObject responseJSON = new JSONObject(responseData);
+                    JSONArray movieJSONResults = new JSONArray();
+                    movieJSONResults = responseJSON.getJSONArray("results");
                     movies.addAll(Movie.fromJSONArray(movieJSONResults));
-                    movieArrayAdapter.notifyDataSetChanged();
                     Log.d("DEBUG", movies.toString());
+                    updateAdapter();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
 
+        });
+
+    }
+
+    private void updateAdapter(){
+        runOnUiThread(new Runnable() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
+            public void run() {
+                movieArrayAdapter.notifyDataSetChanged();
             }
         });
     }
+
+
 }
