@@ -1,6 +1,7 @@
 package com.aripir.flickster.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -22,14 +23,17 @@ import java.util.List;
 
 public class MovieArrayAdapter extends ArrayAdapter<Movie>{
 
+    private int orientation;
+
     private static class ViewHolder {
         TextView tvTile;
         TextView tvOverview;
         ImageView movieImage;
     }
 
-    public MovieArrayAdapter(Context context, List<Movie> movies){
+    public MovieArrayAdapter(Context context, List<Movie> movies, int orientation){
         super(context, android.R.layout.simple_list_item_1, movies);
+        this.orientation = orientation;
     }
 
     @NonNull
@@ -53,7 +57,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
             viewHolder.tvTile.setText(movie.getOriginalTitle());
             viewHolder.tvOverview.setText(movie.getOverView());
 
-            Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.movieImage);
+            Picasso.with(getContext()).load(movie.getImagePath(this.orientation)).into(viewHolder.movieImage);
 
             convertView.setTag(viewHolder);
         }else {

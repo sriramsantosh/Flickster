@@ -1,5 +1,7 @@
 package com.aripir.flickster.models;
 
+import android.content.res.Configuration;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,8 +14,22 @@ import java.util.ArrayList;
 
 public class Movie {
 
-    public String getPosterPath() {
-        return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath );
+    public String getImagePath(int orientation) {
+        String portraitModeUrl = "https://image.tmdb.org/t/p/w342/%s";
+        String landScapeModeUrl = "https://image.tmdb.org/t/p/w1280/%s";
+
+        String url = null;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            url = portraitModeUrl;
+            return String.format(url, posterPath );
+            // ...
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            url = landScapeModeUrl;
+            return String.format(url, backdropPath );
+        }
+
+        return String.format(url, posterPath ); // Can't figure our the orientation
+
     }
 
     public String getOriginalTitle() {
@@ -27,12 +43,13 @@ public class Movie {
     String posterPath;
     String originalTitle;
     String overView;
-
+    String backdropPath;
 
 
     public Movie(JSONObject jsonObject) throws JSONException
     {
         this.posterPath = jsonObject.getString("poster_path");
+        this.backdropPath = jsonObject.getString("backdrop_path");
         this.originalTitle = jsonObject.getString("original_title");
         this.overView = jsonObject.getString("overview");
     }
