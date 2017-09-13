@@ -47,18 +47,20 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
             viewHolder.tvTile  = (TextView) convertView.findViewById(R.id.tvTitle);
             viewHolder.tvOverview  = (TextView) convertView.findViewById(R.id.tvOverview);
             viewHolder.movieImage = (ImageView) convertView.findViewById(R.id.movieImage);
+
+            viewHolder.movieImage.setImageResource(0);
+
+            viewHolder.tvTile.setText(movie.getOriginalTitle());
+            viewHolder.tvOverview.setText(movie.getOverView());
+
+            Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.movieImage);
+
             convertView.setTag(viewHolder);
         }else {
             // View is being recycled, retrieve the viewHolder object from tag
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.movieImage.setImageResource(0);
-
-        viewHolder.tvTile.setText(movie.getOriginalTitle());
-        viewHolder.tvOverview.setText(movie.getOverView());
-
-        Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.movieImage);
 
         return convertView;
     }
