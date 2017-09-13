@@ -36,7 +36,6 @@ public class Movie {
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             url = portraitModeUrl;
             return String.format(url, posterPath );
-            // ...
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             url = landScapeModeUrl;
             return String.format(url, backdropPath );

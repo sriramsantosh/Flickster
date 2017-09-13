@@ -15,6 +15,9 @@ The following **required** functionality is completed:
 * [x] Title, Backdrop Image, Overview (Landscape mode)
 
 The following **optional** features are implemented:
+* [x] Display a nice default [placeholder graphic](http://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library#configuring-picasso) for each image during loading.
+
+The following **bonus** features are implemented:
 * [x] Replaced android-async-http network client with the popular [OkHttp](http://guides.codepath.com/android/Using-OkHttp) networking libraries.
 
 ## Video Walkthrough

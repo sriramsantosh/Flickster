@@ -52,20 +52,31 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
             viewHolder.tvOverview  = (TextView) convertView.findViewById(R.id.tvOverview);
             viewHolder.movieImage = (ImageView) convertView.findViewById(R.id.movieImage);
 
-            viewHolder.movieImage.setImageResource(0);
-
-            viewHolder.tvTile.setText(movie.getOriginalTitle());
-            viewHolder.tvOverview.setText(movie.getOverView());
-
-            Picasso.with(getContext()).load(movie.getImagePath(this.orientation)).into(viewHolder.movieImage);
-
             convertView.setTag(viewHolder);
         }else {
             // View is being recycled, retrieve the viewHolder object from tag
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+       // viewHolder.movieImage.setImageResource(0);
+
+        viewHolder.tvTile.setText(movie.getOriginalTitle());
+        viewHolder.tvOverview.setText(movie.getOverView());
+
+        Picasso.with(getContext()).load(movie.getImagePath(this.orientation)).placeholder(getDrawable())
+                .into(viewHolder.movieImage);
+
 
         return convertView;
+    }
+
+    private int getDrawable() {
+
+        if (this.orientation == Configuration.ORIENTATION_PORTRAIT)
+            return R.drawable.placeholder_portrait;
+         else if (this.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            return  R.drawable.placeholder_landscape;
+
+        return R.drawable.placeholder_portrait; // All cases where the orientation is not determined.
     }
 }
