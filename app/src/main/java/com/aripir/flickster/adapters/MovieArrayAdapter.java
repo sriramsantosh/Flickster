@@ -21,6 +21,13 @@ import java.util.List;
  */
 
 public class MovieArrayAdapter extends ArrayAdapter<Movie>{
+
+    private static class ViewHolder {
+        TextView tvTile;
+        TextView tvOverview;
+        ImageView movieImage;
+    }
+
     public MovieArrayAdapter(Context context, List<Movie> movies){
         super(context, android.R.layout.simple_list_item_1, movies);
     }
@@ -31,23 +38,27 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
 
         Movie movie = getItem(position);
 
+        ViewHolder viewHolder;
+
         if(convertView ==null){
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_movie, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.tvTile  = (TextView) convertView.findViewById(R.id.tvTitle);
+            viewHolder.tvOverview  = (TextView) convertView.findViewById(R.id.tvOverview);
+            viewHolder.movieImage = (ImageView) convertView.findViewById(R.id.movieImage);
+            convertView.setTag(viewHolder);
+        }else {
+            // View is being recycled, retrieve the viewHolder object from tag
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.movieImage);
+        viewHolder.movieImage.setImageResource(0);
 
-        imageView.setImageResource(0);
+        viewHolder.tvTile.setText(movie.getOriginalTitle());
+        viewHolder.tvOverview.setText(movie.getOverView());
 
-        TextView textViewTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-        TextView textViewOriginalOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-
-
-        textViewTitle.setText(movie.getOriginalTitle());
-        textViewOriginalOverview.setText(movie.getOverView());
-
-        Picasso.with(getContext()).load(movie.getPosterPath()).into(imageView);
+        Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.movieImage);
 
         return convertView;
     }
