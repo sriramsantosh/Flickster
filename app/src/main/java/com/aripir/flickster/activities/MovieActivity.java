@@ -1,10 +1,11 @@
-package com.aripir.flickster;
+package com.aripir.flickster.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.aripir.flickster.R;
 import com.aripir.flickster.adapters.MovieArrayAdapter;
 import com.aripir.flickster.models.Movie;
 import com.loopj.android.http.AsyncHttpClient;

@@ -14,6 +14,20 @@ import java.util.ArrayList;
 
 public class Movie {
 
+    String posterPath;
+    String originalTitle;
+    String overView;
+    String backdropPath;
+
+    public Movie(JSONObject jsonObject) throws JSONException
+    {
+        this.posterPath = jsonObject.getString("poster_path");
+        this.backdropPath = jsonObject.getString("backdrop_path");
+        this.originalTitle = jsonObject.getString("original_title");
+        this.overView = jsonObject.getString("overview");
+    }
+
+
     public String getImagePath(int orientation) {
         String portraitModeUrl = "https://image.tmdb.org/t/p/w342/%s";
         String landScapeModeUrl = "https://image.tmdb.org/t/p/w1280/%s";
@@ -28,8 +42,7 @@ public class Movie {
             return String.format(url, backdropPath );
         }
 
-        return String.format(url, posterPath ); // Can't figure our the orientation
-
+        return String.format(url, posterPath ); // Can't figure out the orientation
     }
 
     public String getOriginalTitle() {
@@ -39,21 +52,6 @@ public class Movie {
     public String getOverView() {
         return overView;
     }
-
-    String posterPath;
-    String originalTitle;
-    String overView;
-    String backdropPath;
-
-
-    public Movie(JSONObject jsonObject) throws JSONException
-    {
-        this.posterPath = jsonObject.getString("poster_path");
-        this.backdropPath = jsonObject.getString("backdrop_path");
-        this.originalTitle = jsonObject.getString("original_title");
-        this.overView = jsonObject.getString("overview");
-    }
-
 
     public static ArrayList<Movie> fromJSONArray(JSONArray array){
         ArrayList<Movie> results = new ArrayList<>();
