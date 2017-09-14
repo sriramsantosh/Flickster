@@ -16,20 +16,20 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/movieImage"
         android:layout_toRightOf="@+id/movieImage"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-         />
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/tvOverview"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
         android:layout_toEndOf="@+id/movieImage"
         android:layout_toRightOf="@+id/movieImage"
-         />
+        android:paddingLeft="10dp" />
 </RelativeLayout>
