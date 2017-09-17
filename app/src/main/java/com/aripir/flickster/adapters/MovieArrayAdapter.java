@@ -96,20 +96,36 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
         });
 
         if(type == 0 ) {
+
             viewHolder.tvTile.setText(movie.getOriginalTitle());
             viewHolder.tvOverview.setText(movie.getOverView());
+
+            int x = 500;
+            int y = 750;
+
+             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    x = 800;
+                    y = 800;
+            }
+
             Picasso.with(getContext()).load(movie.getImagePath(this.orientation, type)).placeholder(getDrawable())
                     .transform(new RoundedCornersTransformation(10, 10))
-                    .resize(500,800)
+                    .resize(x,y)
                     .into(viewHolder.movieImage);
 
         }else{
 
+            int x = 780;
+            int y = 800;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                x = 1400;
+                y = 800;
+            }
+
             Picasso.with(getContext()).load(movie.getImagePath(this.orientation, type)).placeholder(getDrawable())
                     .transform(new RoundedCornersTransformation(10, 10))
-                    .resize(780,800)
+                    .resize(x,y)
                     .into(viewHolder.movieImage);
-
         }
 
         return convertView;
