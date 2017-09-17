@@ -8,11 +8,10 @@
         android:id="@+id/movieImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
         tools:src="@mipmap/ic_launcher"
-        />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="60dp" />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -22,6 +21,8 @@
         android:layout_toEndOf="@+id/movieImage"
         android:layout_toRightOf="@+id/movieImage"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -31,5 +32,6 @@
         android:layout_below="@+id/tvTitle"
         android:layout_toEndOf="@+id/movieImage"
         android:layout_toRightOf="@+id/movieImage"
+        android:textColor="#73FFFFFF"
         android:paddingLeft="10dp" />
 </RelativeLayout>

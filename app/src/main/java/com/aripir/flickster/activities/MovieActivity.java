@@ -1,5 +1,6 @@
 package com.aripir.flickster.activities;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +19,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.annotation.ThreadSafe;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -28,14 +27,17 @@ import okhttp3.Response;
 
 public class MovieActivity extends AppCompatActivity {
 
-    ArrayList<Movie> movies;
+    public static ArrayList<Movie> movies;
     MovieArrayAdapter movieArrayAdapter;
     ListView lvItems;
+    public static int moviesCount;
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+        context =this;
 
         int orientation = getResources().getConfiguration().orientation;
 
@@ -51,7 +53,6 @@ public class MovieActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
-
 
         // Get a handler that can be used to post to the main thread
         client.newCall(request).enqueue(new Callback() {
@@ -71,15 +72,15 @@ public class MovieActivity extends AppCompatActivity {
                 // Read data on the worker thread
                  String responseData = response.body().string();
                 try {
-                    JSONObject responseJSON = new JSONObject(responseData);
-                    JSONArray movieJSONResults = new JSONArray();
-                    movieJSONResults = responseJSON.getJSONArray("results");
-                    movies.addAll(Movie.fromJSONArray(movieJSONResults));
-                    Log.d("DEBUG", movies.toString());
-                    updateAdapter();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                        JSONObject responseJSON = new JSONObject(responseData);
+                        JSONArray movieJSONResults = new JSONArray();
+                        movieJSONResults = responseJSON.getJSONArray("results");
+                        moviesCount = movieJSONResults.length();
+                        movies.addAll(Movie.fromJSONArray(movieJSONResults));
+                        updateAdapter();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
             }
 
         });
