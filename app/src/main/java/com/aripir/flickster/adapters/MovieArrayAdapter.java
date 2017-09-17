@@ -95,12 +95,12 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
             }
         });
 
-        if(type <1) {
+        if(type == 0 ) {
             viewHolder.tvTile.setText(movie.getOriginalTitle());
             viewHolder.tvOverview.setText(movie.getOverView());
             Picasso.with(getContext()).load(movie.getImagePath(this.orientation, type)).placeholder(getDrawable())
                     .transform(new RoundedCornersTransformation(10, 10))
-                    .resize(500,700)
+                    .resize(500,800)
                     .into(viewHolder.movieImage);
 
         }else{
@@ -129,10 +129,12 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
     public int getItemViewType(int position) {
         // Return an integer here representing the type of View.
         // Note: Integers must be in the range 0 to getViewTypeCount() - 1
-        if(getItem(position).getMovieRating()<5)
+        float movieRating = getItem(position).getMovieRating();
+
+        if( movieRating < 5)
             return 0;
-        else
-            return 1;
+
+        return 1;
     }
 
     private int getDrawable() {

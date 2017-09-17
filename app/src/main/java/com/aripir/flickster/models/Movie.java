@@ -18,7 +18,7 @@ public class Movie {
     private String originalTitle;
     private String overView;
     private String backdropPath;
-    private int movieRating;
+    private float movieRating;
     private String movieDate;
     private int movieId;
 
@@ -28,9 +28,9 @@ public class Movie {
         this.backdropPath = jsonObject.getString("backdrop_path");
         this.originalTitle = jsonObject.getString("original_title");
         this.overView = jsonObject.getString("overview");
-        this.movieRating = jsonObject.getInt("vote_average");
         this.movieDate = jsonObject.getString("release_date");
         this.movieId = jsonObject.getInt("id");
+        this.movieRating = Float.parseFloat(jsonObject.getString("vote_average"));
     }
 
     public String getImagePath(int orientation, int rating) {
@@ -63,9 +63,7 @@ public class Movie {
         return overView;
     }
 
-    public int getMovieRating() {
-        return movieRating;
-    }
+    public float getMovieRating() { return movieRating; }
 
     public String getMovieReleaseDate(){
         return movieDate;

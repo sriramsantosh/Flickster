@@ -41,6 +41,7 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
     @BindView(R.id.movieOverview)TextView movieOverviewTV;
     @BindView(R.id.releaseDate)TextView movieReleaseDateTV;
     @BindView(R.id.movieRating) RatingBar movieRatingRB;
+    @BindView(R.id.player) YouTubePlayerView youTubePlayerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +50,14 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_movie_details);
         ButterKnife.bind(this);
 
-        int movieRating = getIntent().getIntExtra("movie_rating", 0);
+        float movieRating = getIntent().getFloatExtra("movie_rating", 0);
         String movieTitle = getIntent().getStringExtra("movie_title");
         String movieOverview = getIntent().getStringExtra("movie_overview");
         String movieReleaseDate = getIntent().getStringExtra("movie_releasedate");
 
         isPopular = false;
 
-        if(movieRating >5) {
+        if(movieRating >=5) {
             isPopular = true;
             movieRatingRB.setVisibility(View.GONE);
         }
@@ -65,10 +66,9 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
                 movieTitleTV.setText(movieTitle);
                 movieOverviewTV.setText(movieOverview);
                 movieReleaseDateTV.setText("Release Date: " + movieReleaseDate);
-                movieRatingRB.setNumStars(movieRating / 2);
+                movieRatingRB.setRating(movieRating / 2);
                 movieRatingRB.setVisibility(View.VISIBLE);
         }
-
 
         int movieId = getIntent().getIntExtra("movie_id", 0);
 
@@ -133,16 +133,16 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
             @Override
             public void run() {
 
-                YouTubePlayerView youTubePlayerView =
-                        (YouTubePlayerView) findViewById(R.id.player);
-
                 youTubePlayerView.initialize(YT_API_KEY,
                         new YouTubePlayer.OnInitializedListener() {
                             @Override
                             public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                                 YouTubePlayer youTubePlayer, boolean b) {
 
-
+                                if(key ==null){
+                                    Toast.makeText(MovieDetailsActivity.this, "Couldn't find a Youtube trailer!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
                                 if(isPopular)
                                     youTubePlayer.loadVideo(key);
                                 else
@@ -153,7 +153,8 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
                                                                 YouTubeInitializationResult youTubeInitializationResult) {
                                 Toast.makeText(MovieDetailsActivity.this, "Youtube Failed!", Toast.LENGTH_SHORT).show();
                             }
-                        });            }
+                        });
+            }
         });
     }
 

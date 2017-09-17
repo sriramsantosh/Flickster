@@ -42,16 +42,13 @@
         android:theme="@style/RatingBar"
         android:layout_marginTop="14dp"
         android:layout_below="@+id/releaseDate"
-        android:layout_below="@+id/releaseDate"
-        android:layout_below="@+id/releaseDate"
-        android:layout_below="@+id/releaseDate"
         android:layout_alignStart="@+id/releaseDate" />
 
     <TextView
         android:id="@+id/movieOverview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
+        android:textColor="#73FFFFFF"
         android:layout_marginTop="14dp"
         android:layout_below="@+id/movieRating"
         android:layout_alignStart="@+id/movieRating" />
