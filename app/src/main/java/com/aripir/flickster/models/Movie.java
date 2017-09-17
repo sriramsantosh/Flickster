@@ -14,10 +14,13 @@ import java.util.ArrayList;
 
 public class Movie {
 
-    String posterPath;
-    String originalTitle;
-    String overView;
-    String backdropPath;
+    private String posterPath;
+    private String originalTitle;
+    private String overView;
+    private String backdropPath;
+    private float movieRating;
+    private String movieDate;
+    private int movieId;
 
     public Movie(JSONObject jsonObject) throws JSONException
     {
@@ -25,12 +28,20 @@ public class Movie {
         this.backdropPath = jsonObject.getString("backdrop_path");
         this.originalTitle = jsonObject.getString("original_title");
         this.overView = jsonObject.getString("overview");
+        this.movieDate = jsonObject.getString("release_date");
+        this.movieId = jsonObject.getInt("id");
+        this.movieRating = Float.parseFloat(jsonObject.getString("vote_average"));
     }
 
+    public String getImagePath(int orientation, int rating) {
 
-    public String getImagePath(int orientation) {
         String portraitModeUrl = "https://image.tmdb.org/t/p/w342/%s";
         String landScapeModeUrl = "https://image.tmdb.org/t/p/w1280/%s";
+
+        if(rating >= 5){
+            portraitModeUrl = "https://image.tmdb.org/t/p/original/%s";
+            landScapeModeUrl = "https://image.tmdb.org/t/p/original/%s";
+        }
 
         String url = null;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -52,9 +63,18 @@ public class Movie {
         return overView;
     }
 
+    public float getMovieRating() { return movieRating; }
+
+    public String getMovieReleaseDate(){
+        return movieDate;
+    }
+
+    public int getMovieId(){
+        return movieId;
+    }
+
     public static ArrayList<Movie> fromJSONArray(JSONArray array){
         ArrayList<Movie> results = new ArrayList<>();
-
 
         for(int i =0;i<array.length(); i++){
             try {

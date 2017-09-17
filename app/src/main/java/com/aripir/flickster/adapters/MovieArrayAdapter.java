@@ -1,6 +1,7 @@
 package com.aripir.flickster.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aripir.flickster.R;
+import com.aripir.flickster.activities.MovieActivity;
+import com.aripir.flickster.activities.MovieDetailsActivity;
 import com.aripir.flickster.models.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -42,32 +45,112 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        Movie movie = getItem(position);
+        final Movie movie = getItem(position);
+        final int type = getItemViewType(position);
 
         ViewHolder viewHolder;
 
         if(convertView ==null){
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.item_movie, parent, false);
-            viewHolder = new ViewHolder();
-            viewHolder.tvTile  = (TextView) convertView.findViewById(R.id.tvTitle);
-            viewHolder.tvOverview  = (TextView) convertView.findViewById(R.id.tvOverview);
-            viewHolder.movieImage = (ImageView) convertView.findViewById(R.id.movieImage);
 
-            convertView.setTag(viewHolder);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            viewHolder = new ViewHolder();
+
+            if(type <1) {
+                convertView = inflater.inflate(R.layout.item_movie, parent, false);
+                viewHolder.tvTile = (TextView) convertView.findViewById(R.id.tvTitle);
+                viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
+                viewHolder.movieImage = (ImageView) convertView.findViewById(R.id.movieImage);
+
+                convertView.setTag(viewHolder);
+            }else{
+                convertView = inflater.inflate(R.layout.image_movie, parent, false);
+                viewHolder.movieImage = (ImageView) convertView.findViewById(R.id.movieImage);
+                convertView.setTag(viewHolder);
+            }
+
         }else {
             // View is being recycled, retrieve the viewHolder object from tag
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.tvTile.setText(movie.getOriginalTitle());
-        viewHolder.tvOverview.setText(movie.getOverView());
 
-        Picasso.with(getContext()).load(movie.getImagePath(this.orientation)).placeholder(getDrawable())
-                .transform(new RoundedCornersTransformation(10, 10))
-                .into(viewHolder.movieImage);
+        viewHolder.movieImage.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MovieActivity.context, MovieDetailsActivity.class);
+                intent.putExtra("movie_id", movie.getMovieId());
+                intent.putExtra("movie_rating", movie.getMovieRating());
+
+
+                if(type<1){
+                    intent.putExtra("movie_overview", movie.getOverView());
+                    intent.putExtra("movie_title", movie.getOriginalTitle());
+                    intent.putExtra("movie_releasedate", movie.getMovieReleaseDate());
+                }
+
+                view.getContext().startActivity(intent);
+
+            }
+        });
+
+        if(type == 0 ) {
+
+            viewHolder.tvTile.setText(movie.getOriginalTitle());
+            viewHolder.tvOverview.setText(movie.getOverView());
+
+            int x = 500;
+            int y = 750;
+
+             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    x = 800;
+                    y = 800;
+            }
+
+            Picasso.with(getContext()).load(movie.getImagePath(this.orientation, type)).placeholder(getDrawable())
+                    .transform(new RoundedCornersTransformation(10, 10))
+                    .resize(x,y)
+                    .into(viewHolder.movieImage);
+
+        }else{
+
+            int x = 780;
+            int y = 800;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                x = 1400;
+                y = 800;
+            }
+
+            Picasso.with(getContext()).load(movie.getImagePath(this.orientation, type)).placeholder(getDrawable())
+                    .transform(new RoundedCornersTransformation(10, 10))
+                    .resize(x,y)
+                    .into(viewHolder.movieImage);
+        }
 
         return convertView;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        // Returns the number of types of Views that will be created by this adapter
+        // Each type represents a set of views that can be converted
+
+        return 2;
+    }
+
+    // Get the type of View that will be created by getView(int, View, ViewGroup)
+    // for the specified item.
+    @Override
+    public int getItemViewType(int position) {
+        // Return an integer here representing the type of View.
+        // Note: Integers must be in the range 0 to getViewTypeCount() - 1
+        float movieRating = getItem(position).getMovieRating();
+
+        if( movieRating < 5)
+            return 0;
+
+        return 1;
     }
 
     private int getDrawable() {
