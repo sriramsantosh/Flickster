@@ -2,6 +2,7 @@ package com.aripir.flickster.activities;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -156,6 +157,12 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
                         });
             }
         });
+    }
+
+
+    public void onHover(MotionEvent event){
+
+
     }
 
 }
