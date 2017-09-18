@@ -31,9 +31,9 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
     private int orientation;
 
     private static class ViewHolder {
-        TextView tvTile;
-        TextView tvOverview;
-        ImageView movieImage;
+        private TextView tvTile;
+        private TextView tvOverview;
+        private ImageView movieImage;
     }
 
     public MovieArrayAdapter(Context context, List<Movie> movies, int orientation){
