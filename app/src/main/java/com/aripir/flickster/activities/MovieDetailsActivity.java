@@ -159,10 +159,4 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
         });
     }
 
-
-    public void onHover(MotionEvent event){
-
-
-    }
-
 }
