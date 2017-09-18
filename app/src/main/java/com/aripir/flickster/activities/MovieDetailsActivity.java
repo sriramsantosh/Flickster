@@ -2,7 +2,6 @@ package com.aripir.flickster.activities;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -38,11 +37,11 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
     private String key;
     private boolean isPopular;
 
-    @BindView(R.id.movieTitle) TextView movieTitleTV;
-    @BindView(R.id.movieOverview)TextView movieOverviewTV;
-    @BindView(R.id.releaseDate)TextView movieReleaseDateTV;
-    @BindView(R.id.movieRating) RatingBar movieRatingRB;
-    @BindView(R.id.player) YouTubePlayerView youTubePlayerView;
+    private @BindView(R.id.movieTitle) TextView movieTitleTV;
+    private @BindView(R.id.movieOverview)TextView movieOverviewTV;
+    private @BindView(R.id.releaseDate)TextView movieReleaseDateTV;
+    private @BindView(R.id.movieRating) RatingBar movieRatingRB;
+    private @BindView(R.id.player) YouTubePlayerView youTubePlayerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
