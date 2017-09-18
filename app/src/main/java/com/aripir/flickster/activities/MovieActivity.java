@@ -9,8 +9,6 @@ import android.widget.ListView;
 import com.aripir.flickster.R;
 import com.aripir.flickster.adapters.MovieArrayAdapter;
 import com.aripir.flickster.models.Movie;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,8 +26,8 @@ import okhttp3.Response;
 public class MovieActivity extends AppCompatActivity {
 
     public static ArrayList<Movie> movies;
-    MovieArrayAdapter movieArrayAdapter;
-    ListView lvItems;
+    private MovieArrayAdapter movieArrayAdapter;
+    private ListView lvItems;
     public static int moviesCount;
     public static Context context;
 
